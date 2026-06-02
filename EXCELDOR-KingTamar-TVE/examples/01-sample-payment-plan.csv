@@ -1,8 +1,8 @@
 scenario,stage,payment_percent,month_from_proposal,note
-official,signature,25,0,baseline example
-official,year_1,20,12,baseline example
-official,year_2,20,24,baseline example
-official,delivery,35,48,baseline example
+official,signature,25,0,baseline A
+official,year_1,20,12,baseline A
+official,year_2,20,24,baseline A
+official,delivery,35,48,baseline A
 custom,signature,10,0,client request
 custom,year_1,10,12,client request
 custom,year_2,20,24,client request
