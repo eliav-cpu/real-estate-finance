@@ -1,0 +1,15 @@
+{
+  "projectName": "EXCELDOR Example Project",
+  "assetType": "real_estate",
+  "currency": "EUR",
+  "status": "Needs Verification",
+  "assumptions": {
+    "purchasePrice": 200000,
+    "annualGrossIncome": 24000,
+    "annualNetIncome": 16000,
+    "equityInvested": 50000,
+    "loanAmount": 100000,
+    "annualInterestRate": 0.06,
+    "termYears": 10
+  }
+}
