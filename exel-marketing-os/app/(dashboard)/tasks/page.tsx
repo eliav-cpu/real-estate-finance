@@ -9,6 +9,12 @@ import { formatDate } from '@/lib/utils'
 import type { Task, Channel } from '@/types'
 import { Plus, Edit2, Trash2 } from 'lucide-react'
 
+type TaskFormState = Omit<typeof EMPTY_FORM, 'priority' | 'issue_type' | 'status'> & {
+  priority: Task['priority']
+  issue_type: Task['issue_type']
+  status: Task['status']
+}
+
 const EMPTY_FORM = {
   priority: 'medium' as const,
   owner: '',
@@ -27,7 +33,7 @@ export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-  const [form, setForm] = useState({ ...EMPTY_FORM })
+  const [form, setForm] = useState<TaskFormState>({ ...EMPTY_FORM })
   const [saving, setSaving] = useState(false)
   const [filterStatus, setFilterStatus] = useState('')
 

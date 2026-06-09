@@ -52,28 +52,20 @@ export default function ChannelTable({ channels, onChannelClick }: ChannelTableP
         <tbody>
           {channels.map((ch) => (
             <tr
-              key={ch.channelId}
+              key={ch.channel_id}
               className={onChannelClick ? 'cursor-pointer hover:bg-gray-50' : ''}
-              onClick={() => onChannelClick?.(ch.channelId)}
+              onClick={() => onChannelClick?.(ch.channel_id)}
             >
-              <td className="font-medium text-gray-900">{ch.channelName}</td>
-              <td>{formatCurrency(ch.totalSpend)}</td>
-              <td>{ch.totalLeads.toLocaleString()}</td>
-              <td>{ch.totalMeetings.toLocaleString()}</td>
-              <td>{ch.totalClosings.toLocaleString()}</td>
+              <td className="font-medium text-gray-900">{ch.channel_name}</td>
+              <td>{formatCurrency(ch.total_spend)}</td>
+              <td>{ch.leads.toLocaleString()}</td>
+              <td>{ch.meetings.toLocaleString()}</td>
+              <td>{ch.closings.toLocaleString()}</td>
+              <td>{ch.cpl !== null ? formatCurrency(ch.cpl) : '—'}</td>
+              <td>{ch.roi !== null ? formatMultiplier(ch.roi) : '—'}</td>
               <td>
-                {ch.totalLeads > 0
-                  ? formatCurrency(ch.totalSpend / ch.totalLeads)
-                  : '—'}
-              </td>
-              <td>
-                {ch.totalSpend > 0
-                  ? formatMultiplier((ch.totalRevenue - ch.totalSpend) / ch.totalSpend)
-                  : '—'}
-              </td>
-              <td>
-                {ch.totalLeads > 0
-                  ? formatPercent((ch.totalMeetings / ch.totalLeads) * 100)
+                {ch.leads > 0
+                  ? formatPercent((ch.meetings / ch.leads) * 100)
                   : '—'}
               </td>
               <td>

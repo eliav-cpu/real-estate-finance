@@ -6,6 +6,8 @@ import { Header } from '@/components/layout/Header'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import { CAMPAIGN_STATUS_LABELS, CAMPAIGN_DECISION_LABELS } from '@/lib/constants'
 import type { Campaign, Channel } from '@/types'
+
+type CampaignFormState = Omit<typeof EMPTY_FORM, 'status'> & { status: Campaign['status'] }
 import { Plus, Edit2, Trash2, ExternalLink } from 'lucide-react'
 
 const EMPTY_FORM = {
@@ -33,7 +35,7 @@ export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-  const [form, setForm] = useState({ ...EMPTY_FORM })
+  const [form, setForm] = useState<CampaignFormState>({ ...EMPTY_FORM })
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
   const [filterStatus, setFilterStatus] = useState('')

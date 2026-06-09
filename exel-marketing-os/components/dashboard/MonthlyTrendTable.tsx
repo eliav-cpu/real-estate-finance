@@ -1,8 +1,8 @@
 'use client'
 
 import { MonthlySnapshot } from '@/types'
-import { formatCurrency, formatNumber } from '@/lib/calculations'
-import { HEBREW_MONTHS } from '@/lib/constants'
+import { formatCurrency, formatMultiplier } from '@/lib/calculations'
+import { formatNumber } from '@/lib/utils'
 
 interface MonthlyTrendTableProps {
   snapshots: MonthlySnapshot[]
@@ -42,24 +42,15 @@ export default function MonthlyTrendTable({ snapshots }: MonthlyTrendTableProps)
         <tbody>
           {snapshots.map((snap, idx) => {
             const prev = snapshots[idx - 1]
-            const cpl = snap.leads > 0 ? snap.spend / snap.leads : 0
-            const prevCpl = prev && prev.leads > 0 ? prev.spend / prev.leads : undefined
-            const roi = snap.spend > 0 ? (snap.revenue - snap.spend) / snap.spend : 0
-            const prevRoi =
-              prev && prev.spend > 0
-                ? (prev.revenue - prev.spend) / prev.spend
-                : undefined
 
             return (
-              <tr key={snap.monthKey}>
-                <td className="font-medium">
-                  {HEBREW_MONTHS[snap.month - 1]} {snap.year}
-                </td>
+              <tr key={snap.month_key}>
+                <td className="font-medium">{snap.month_name}</td>
                 <td>
-                  <span className={trendClass(snap.spend, prev?.spend, false)}>
-                    {trendArrow(snap.spend, prev?.spend)}
+                  <span className={trendClass(snap.total_spend, prev?.total_spend, false)}>
+                    {trendArrow(snap.total_spend, prev?.total_spend)}
                   </span>{' '}
-                  {formatCurrency(snap.spend)}
+                  {formatCurrency(snap.total_spend)}
                 </td>
                 <td>
                   <span className={trendClass(snap.leads, prev?.leads)}>
@@ -68,34 +59,34 @@ export default function MonthlyTrendTable({ snapshots }: MonthlyTrendTableProps)
                   {formatNumber(snap.leads)}
                 </td>
                 <td>
-                  <span className={trendClass(snap.meetings, prev?.meetings)}>
-                    {trendArrow(snap.meetings, prev?.meetings)}
+                  <span className={trendClass(snap.office_meetings, prev?.office_meetings)}>
+                    {trendArrow(snap.office_meetings, prev?.office_meetings)}
                   </span>{' '}
-                  {formatNumber(snap.meetings)}
+                  {formatNumber(snap.office_meetings)}
                 </td>
                 <td>
-                  <span className={trendClass(snap.closings, prev?.closings)}>
-                    {trendArrow(snap.closings, prev?.closings)}
+                  <span className={trendClass(snap.closed_deals, prev?.closed_deals)}>
+                    {trendArrow(snap.closed_deals, prev?.closed_deals)}
                   </span>{' '}
-                  {formatNumber(snap.closings)}
+                  {formatNumber(snap.closed_deals)}
                 </td>
                 <td>
-                  <span className={trendClass(cpl, prevCpl, false)}>
-                    {prevCpl !== undefined ? trendArrow(cpl, prevCpl) : ''}
+                  <span className={trendClass(snap.cpl ?? 0, prev?.cpl ?? undefined, false)}>
+                    {prev?.cpl != null && snap.cpl != null ? trendArrow(snap.cpl, prev.cpl) : ''}
                   </span>{' '}
-                  {snap.leads > 0 ? formatCurrency(cpl) : '—'}
+                  {snap.cpl !== null ? formatCurrency(snap.cpl) : '—'}
                 </td>
                 <td>
-                  <span className={trendClass(roi, prevRoi)}>
-                    {prevRoi !== undefined ? trendArrow(roi, prevRoi) : ''}
+                  <span className={trendClass(snap.roi ?? 0, prev?.roi ?? undefined)}>
+                    {prev?.roi != null && snap.roi != null ? trendArrow(snap.roi, prev.roi) : ''}
                   </span>{' '}
-                  {snap.spend > 0 ? `${roi.toFixed(1)}×` : '—'}
+                  {snap.roi !== null ? formatMultiplier(snap.roi) : '—'}
                 </td>
                 <td>
-                  <span className={trendClass(snap.revenue, prev?.revenue)}>
-                    {trendArrow(snap.revenue, prev?.revenue)}
+                  <span className={trendClass(snap.actual_revenue, prev?.actual_revenue)}>
+                    {trendArrow(snap.actual_revenue, prev?.actual_revenue)}
                   </span>{' '}
-                  {formatCurrency(snap.revenue)}
+                  {formatCurrency(snap.actual_revenue)}
                 </td>
               </tr>
             )

@@ -10,6 +10,12 @@ import { hebrewMonth, monthKey } from '@/lib/utils'
 import type { MonthlyRecord, Channel } from '@/types'
 import { Plus, Edit2, Trash2, ChevronDown } from 'lucide-react'
 
+type RecordFormState = Omit<typeof EMPTY_FORM, 'invoice_status' | 'payment_status' | 'qa_status'> & {
+  invoice_status: MonthlyRecord['invoice_status']
+  payment_status: MonthlyRecord['payment_status']
+  qa_status: MonthlyRecord['qa_status']
+}
+
 const EMPTY_FORM = {
   channel_id: '',
   project_or_offer: '',
@@ -52,7 +58,7 @@ export default function RecordsPage() {
   const [records, setRecords] = useState<MonthlyRecord[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-  const [form, setForm] = useState({ ...EMPTY_FORM })
+  const [form, setForm] = useState<RecordFormState>({ ...EMPTY_FORM })
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
 

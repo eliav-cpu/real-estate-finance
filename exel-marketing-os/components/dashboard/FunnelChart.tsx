@@ -1,7 +1,7 @@
 'use client'
 
 import { FunnelStage } from '@/types'
-import { formatNumber, formatPercent } from '@/lib/calculations'
+import { formatNumber } from '@/lib/utils'
 
 interface FunnelChartProps {
   stages: FunnelStage[]
@@ -15,14 +15,6 @@ const STAGE_COLORS = [
   'bg-amber-500',
 ]
 
-const STAGE_LABELS: Record<string, string> = {
-  leads: 'לידים',
-  qualified_leads: 'לידים מוסמכים',
-  meetings: 'פגישות',
-  offers_sent: 'הצעות',
-  closings: 'סגירות',
-}
-
 export default function FunnelChart({ stages }: FunnelChartProps) {
   const maxValue = stages[0]?.value || 1
 
@@ -33,18 +25,18 @@ export default function FunnelChart({ stages }: FunnelChartProps) {
         const color = STAGE_COLORS[idx % STAGE_COLORS.length]
 
         return (
-          <div key={stage.name}>
+          <div key={stage.label}>
             <div className="flex items-center justify-between mb-1">
               <span className="text-sm font-medium text-gray-700">
-                {STAGE_LABELS[stage.name] ?? stage.name}
+                {stage.hebrewLabel}
               </span>
               <div className="flex items-center gap-3 text-sm">
                 <span className="font-bold text-gray-900">
                   {formatNumber(stage.value)}
                 </span>
-                {stage.conversionFromPrev !== undefined && (
+                {stage.rateLabel && (
                   <span className="text-xs text-gray-500">
-                    ({formatPercent(stage.conversionFromPrev)} משלב קודם)
+                    ({stage.rateLabel} משלב קודם)
                   </span>
                 )}
               </div>

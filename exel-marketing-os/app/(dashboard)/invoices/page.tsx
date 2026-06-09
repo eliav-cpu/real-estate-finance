@@ -10,6 +10,12 @@ import { hebrewMonth, monthKey, formatDate } from '@/lib/utils'
 import type { Invoice, Channel } from '@/types'
 import { Plus, Edit2, Trash2, FileText, ExternalLink } from 'lucide-react'
 
+type InvoiceFormState = Omit<typeof EMPTY_FORM, 'invoice_status' | 'payment_status' | 'approval_status'> & {
+  invoice_status: Invoice['invoice_status']
+  payment_status: Invoice['payment_status']
+  approval_status: Invoice['approval_status']
+}
+
 const EMPTY_FORM = {
   supplier_name: '',
   channel_id: '',
@@ -39,7 +45,7 @@ export default function InvoicesPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
-  const [form, setForm] = useState({ ...EMPTY_FORM })
+  const [form, setForm] = useState<InvoiceFormState>({ ...EMPTY_FORM })
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
 
